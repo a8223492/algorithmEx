@@ -1,9 +1,9 @@
-#include"sortAlgorithm.h"
 #include<iostream>
 #include <algorithm>
 #include <vector>
 #include <set>
 #include <chrono>
+#include"Sort.h"
 #include"Sortnc.h"
 #include"Puzzle.h"
 using namespace std;

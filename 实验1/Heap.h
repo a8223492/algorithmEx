@@ -3,7 +3,7 @@
 #define HEAP_H
 #include<iterator>
 #include<vector>
-#include"sortAlgorithm.h"
+#include"Sort.h"
 /**
 * @brief 堆排序封装的类
 * 默认为大根堆来获得升序序列
