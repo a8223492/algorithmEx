@@ -6,28 +6,35 @@
 #include <utility>
 class Puzzle
 {
+	typedef std::vector<std::pair<size_t,size_t>> Bottles;
+	typedef std::pair<size_t,size_t> Bottle;
 public:
-	static void threeBottle() {
+	static void threeBottle(){
+		using std::cout;
+		using std::cin;
+		using std::endl;
+	}
+	static void threeBawottle() {
 		using std::cout;
 		using std::cin;
 		using std::endl;
 
-		const std::vector<int> bottleMax = { 8,5,3 };
-		auto judgePoul = [](std::pair<int, size_t> from, std::pair<int, size_t> to) {
-			if ((from.first + to.first) == to.second)//是否能将水壶完全倒满水
-				return true;
-			else if ((to.second - to.first) >= from.first)//是否能将水壶的水完全倒空
-				return true;
-			else
+		const std::vector<size_t> bottleMax = { 8,5,3 };
+		auto judgePoul = [](const Bottle from,const Bottle to) {
+			if(from.first==0)
 				return false;
+			if(to.first == to.second)
+				return false;
+			else
+				return true;
 
 		};
-		auto Poul = [](std::vector<std::pair<int, size_t>> &bottles, size_t from, size_t to) {
-			if((bottles[from].first + bottles[to].first) == bottles[to].second)
+		auto Poul = [](Bottles &bottles, size_t from, size_t to) {
+			if((bottles[from].first + bottles[to].first) > bottles[to].second)
 			{
 				auto delta = bottles[to].second - bottles[to].first;
 				bottles[from].first -= delta;
-				bottles[to].second += delta;
+				bottles[to].first += delta;
 			}
 			else {
 				bottles[to].first += bottles[from].first;
@@ -35,116 +42,99 @@ public:
 			}
 
 		};
-		std::vector<std::vector<std::pair<int, size_t>>> memSteps;
+		std::vector<Bottles> memSteps;
+		auto judgeAlreadyHave = [&memSteps] (const Bottles &bottles){
+			for(auto bm : memSteps)
+				if(bottles[0].first == bm[0].first && bottles[1].first == bm[1].first && bottles[2].first == bm[2]. first)
+					return true;
+			return false;
+		};
 		memSteps.push_back({ {8,8},{0,5},{0,3} });
-		while (!(((*memSteps.rbegin())[0].first == 4) || ((*memSteps.rbegin())[1].first == 4) || ((*memSteps.rbegin())[2].first == 4))) {
-			auto temp = *memSteps.rbegin();
-			if (judgePoul((*memSteps.rbegin())[0], (*memSteps.rbegin())[1])) {
-				Poul(temp, 0, 1);
-				bool alreadyHave = false;
-				for (auto i : memSteps) {
-					size_t count = 0;
-					for (auto j = 0; j < 3; ++j) {
-						if (i[j].first == temp[j].first)
-							++count;
-					}
-					if (count == 3) {
-						alreadyHave = true;
-					}
-				}
+		while (((*memSteps.rbegin())[0].first != 4) && ((*memSteps.rbegin())[1].first != 4) && ((*memSteps.rbegin())[2].first != 4)) {
+			auto tempBottles = *memSteps.rbegin();
+			if (judgePoul(tempBottles[0], tempBottles[1])) {
+				Poul(tempBottles, 0, 1);
+				bool alreadyHave = judgeAlreadyHave(tempBottles);
 				if (alreadyHave != true) {
-					memSteps.push_back(temp);
-				}
+					memSteps.push_back(tempBottles);
+					for(auto tempBottle :tempBottles)
+						cout<<tempBottle.first<<" ";
+					cout<<endl;
+
+				} 
+					tempBottles = *memSteps.rbegin();
+
+
 			}
-			if (judgePoul((*memSteps.rbegin())[0], (*memSteps.rbegin())[2])) {
-				Poul(temp, 0, 2);
-				bool alreadyHave = false;
-				for (auto i : memSteps) {
-					size_t count = 0;
-					for (auto j = 0; j < 3; ++j) {
-						if (i[j].first == temp[j].first)
-							++count;
-					}
-					if (count == 3) {
-						alreadyHave = true;
-					}
-				}
+			if (judgePoul(tempBottles[0], tempBottles[2])) {
+				Poul(tempBottles, 0, 2);
+				bool alreadyHave = judgeAlreadyHave(tempBottles);
 				if (alreadyHave != true) {
-					memSteps.push_back(temp);
-				}
-			}
-			if (judgePoul((*memSteps.rbegin())[1], (*memSteps.rbegin())[2])) {
-				Poul(temp, 1, 2);
-				bool alreadyHave = false;
-				for (auto i : memSteps) {
-					size_t count = 0;
-					for (auto j = 0; j < 3; ++j) {
-						if (i[j].first == temp[j].first)
-							++count;
-					}
-					if (count == 3) {
-						alreadyHave = true;
-					}
-				}
-				if (alreadyHave != true) {
-					memSteps.push_back(temp);
-				}
-			}
-			if (judgePoul((*memSteps.rbegin())[2], (*memSteps.rbegin())[1])) {
-				Poul(temp, 2, 1);
-				bool alreadyHave = false;
-				for (auto i : memSteps) {
-					size_t count = 0;
-					for (auto j = 0; j < 3; ++j) {
-						if (i[j].first == temp[j].first)
-							++count;
-					}
-					if (count == 3) {
-						alreadyHave = true;
-					}
-				}
-				if (alreadyHave != true) {
-					memSteps.push_back(temp);
-				}
-			}
-			if (judgePoul((*memSteps.rbegin())[2], (*memSteps.rbegin())[0])) {
-				Poul(temp, 2, 0);
-				bool alreadyHave = false;
-				for (auto i : memSteps) {
-					size_t count = 0;
-					for (auto j = 0; j < 3; ++j) {
-						if (i[j].first == temp[j].first)
-							++count;
-					}
-					if (count == 3) {
-						alreadyHave = true;
-					}
-				}
-				if (alreadyHave != true) {
-					memSteps.push_back(temp);
-				}
-			}
-			if (judgePoul((*memSteps.rbegin())[1], (*memSteps.rbegin())[0])) {
-				Poul(temp, 1, 0);
-				bool alreadyHave = false;
-				for (auto i : memSteps) {
-					size_t count = 0;
-					for (auto j = 0; j < 3; ++j) {
-						if (i[j].first == temp[j].first)
-							++count;
-					}
-					if (count == 3) {
-						alreadyHave = true;
-					}
-				}
-				if (alreadyHave != true) {
-					memSteps.push_back(temp);
-				}
+					memSteps.push_back(tempBottles);
+					for(auto tempBottle :tempBottles)
+						cout<<tempBottle.first<<" ";
+					cout<<endl;
+
+				} 
+					tempBottles = *memSteps.rbegin();
+
 			}
 			
+			if (judgePoul(tempBottles[1], tempBottles[0])) {
+				Poul(tempBottles, 1, 0);
+				bool alreadyHave = judgeAlreadyHave(tempBottles);
+				if (alreadyHave != true) {
+					memSteps.push_back(tempBottles);
+					for(auto tempBottle :tempBottles)
+						cout<<tempBottle.first<<" ";
+					cout<<endl;
 
+				} 
+					tempBottles = *memSteps.rbegin();
+
+			}
 			
+			if (judgePoul(tempBottles[2], tempBottles[0])) {
+				Poul(tempBottles, 2, 0);
+				bool alreadyHave = judgeAlreadyHave(tempBottles);
+				if (alreadyHave != true) {
+					memSteps.push_back(tempBottles);
+					for(auto tempBottle :tempBottles)
+						cout<<tempBottle.first<<" ";
+					cout<<endl;
 
+				} 
+					tempBottles = *memSteps.rbegin();
+
+			}
+			
+			if (judgePoul(tempBottles[2], tempBottles[1])) {
+				Poul(tempBottles, 2, 1);
+				bool alreadyHave = judgeAlreadyHave(tempBottles);
+				if (alreadyHave != true) {
+					memSteps.push_back(tempBottles);
+					for(auto tempBottle :tempBottles)
+						cout<<tempBottle.first<<" ";
+					cout<<endl;
+
+				} 
+					tempBottles = *memSteps.rbegin();
+
+			}
+			
+			if (judgePoul(tempBottles[1], tempBottles[2])) {
+				Poul(tempBottles, 1, 1);
+				bool alreadyHave = judgeAlreadyHave(tempBottles);
+				if (alreadyHave != true) {
+					memSteps.push_back(tempBottles);
+					for(auto tempBottle :tempBottles)
+						cout<<tempBottle.first<<" ";
+					cout<<endl;
+
+				} 
+					tempBottles = *memSteps.rbegin();
+
+			}
 		}
 		for (auto i : memSteps) {
 			for (auto j : i)
