@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SORT_ALGORITHM_H
-#define SORT_ALGORITHM_H
+#ifndef SORT_H
+#define SORT_H
 #include <iterator>
 #include <vector>
 #include "Heap.h"
