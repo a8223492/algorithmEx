@@ -10,7 +10,7 @@ using namespace std;
 
 int main() {
     Puzzle p;
-    p.threeBawottle();
+    p.threeBottle;
     
  //   vector<int> arr = { 5,4,3,2,1,0 };
 	//Sort sort;

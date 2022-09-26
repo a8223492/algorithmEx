@@ -9,12 +9,7 @@ class Puzzle
 	typedef std::vector<std::pair<size_t,size_t>> Bottles;
 	typedef std::pair<size_t,size_t> Bottle;
 public:
-	static void threeBottle(){
-		using std::cout;
-		using std::cin;
-		using std::endl;
-	}
-	static void threeBawottle() {
+	static void threeBottle() {
 		using std::cout;
 		using std::cin;
 		using std::endl;
@@ -123,7 +118,7 @@ public:
 			}
 			
 			if (judgePoul(tempBottles[1], tempBottles[2])) {
-				Poul(tempBottles, 1, 1);
+				Poul(tempBottles, 1, 2);
 				bool alreadyHave = judgeAlreadyHave(tempBottles);
 				if (alreadyHave != true) {
 					memSteps.push_back(tempBottles);
@@ -136,11 +131,8 @@ public:
 
 			}
 		}
-		for (auto i : memSteps) {
-			for (auto j : i)
-				cout << j.first << " ";
-			cout << endl;
-		}
+
+		
 	}
 	static void plates() {
 		using std::cout; 
