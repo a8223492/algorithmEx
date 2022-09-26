@@ -128,7 +128,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Heap.h" />
+    <ClInclude Include="Puzzle.h" />
     <ClInclude Include="sortAlgorithm.h" />
+    <ClInclude Include="Sortnc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

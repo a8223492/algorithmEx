@@ -48,7 +48,7 @@ public:
 	void insertionSort(iterator lt, iterator rt)
 	{
 
-		for (auto i = lt; i != rt - 1; ++i) // i��ʾ�ź����λ��
+		for (auto i = lt; i != rt - 1; ++i) 
 		{
 			iterator j, k;
 			for (j = lt; j != i + 1 && *j < *(rt - 1); ++j)
@@ -68,7 +68,7 @@ public:
 		}
 		while (gap >= 1)
 		{
-			for (auto i = lt; i != rt - 1; i += gap) // i��ʾ�ź����λ��
+			for (auto i = lt; i != rt - 1; i += gap) 
 			{
 				iterator j, k;
 				for (j = lt; j != i + 1 && *j < *(rt - 1); j += gap)
