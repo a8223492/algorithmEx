@@ -7,6 +7,9 @@
 #include <list>
 #include <map>
 #include <set>
+/*
+* 
+*/
 class Sortnc
 {
 	friend int main();

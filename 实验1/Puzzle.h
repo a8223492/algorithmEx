@@ -6,8 +6,9 @@
 #include <utility>
 class Puzzle
 {
-	typedef std::vector<std::pair<size_t,size_t>> Bottles;
-	typedef std::pair<size_t,size_t> Bottle;
+	typedef std::pair<size_t, size_t> Bottle;//抽象了个瓶子，Bottle.first表示水壶当前有多少水，second表示最大水量
+	typedef std::vector<Bottle> Bottles;
+
 public:
 	static void threeBottle() {
 		using std::cout;
@@ -15,7 +16,7 @@ public:
 		using std::endl;
 
 		const std::vector<size_t> bottleMax = { 8,5,3 };
-		auto judgePoul = [](const Bottle from,const Bottle to) {
+		auto judgePoul = [](const Bottle from,const Bottle to){//检测能不能倒
 			if(from.first==0)
 				return false;
 			if(to.first == to.second)
@@ -37,8 +38,8 @@ public:
 			}
 
 		};
-		std::vector<Bottles> memSteps;
-		auto judgeAlreadyHave = [&memSteps] (const Bottles &bottles){
+		std::vector<Bottles> memSteps;//记录状态
+		auto judgeAlreadyHave = [&memSteps] (const Bottles &bottles){//检测是否在记录中出现过
 			for(auto bm : memSteps)
 				if(bottles[0].first == bm[0].first && bottles[1].first == bm[1].first && bottles[2].first == bm[2]. first)
 					return true;
@@ -46,7 +47,8 @@ public:
 		};
 		memSteps.push_back({ {8,8},{0,5},{0,3} });
 		while (((*memSteps.rbegin())[0].first != 4) && ((*memSteps.rbegin())[1].first != 4) && ((*memSteps.rbegin())[2].first != 4)) {
-			auto tempBottles = *memSteps.rbegin();
+			auto tempBottles = *memSteps.rbegin();//拷贝最后的状态，取值
+			//下面是六个if，分别代表六种倒水情况，A33嘛。虽然代码多，但容易想出来啊，不寒掺
 			if (judgePoul(tempBottles[0], tempBottles[1])) {
 				Poul(tempBottles, 0, 1);
 				bool alreadyHave = judgeAlreadyHave(tempBottles);
@@ -57,7 +59,7 @@ public:
 					cout<<endl;
 
 				} 
-					tempBottles = *memSteps.rbegin();
+					tempBottles = *memSteps.rbegin();//这样倒已经存在，则还原之前的拷贝
 
 
 			}
@@ -178,24 +180,61 @@ public:
 		cout << endl;
 		cout << "需要执行的换位次数为: " << count << "次!" << endl;
 	}
+	static void doors() {
+		using std::cout;
+		using std::cin;
+		using std::endl;
+		using std::vector;
+		using DoorState = bool;
+		using DoorNumber = size_t;
+		const DoorState OPEN = true;
+		const DoorState CLOSE = false;
+		DoorNumber doorCount = 0;
+		cout << "请输入门的个数：" << endl;
+		cin >> doorCount;
+		vector<DoorState> doorStates(doorCount + 1,CLOSE);
+		vector<DoorNumber> openedDoors;
+		vector<DoorNumber> closedDoors;
+		for (DoorNumber i = 1; i <= doorCount; ++i)//i表示当前走过的门
+		{
+			for (DoorNumber j = 1; j <= doorCount; ++j)//找倍数
+			{
+				if (j % i == 0)//当j取余i等于0时，代表j是i的倍数
+					doorStates[j] = (!doorStates[j]);//改变门的状态
+			}
+		}
+		for (DoorNumber i = 1; i <= doorCount; i++)
+		{
+			if (doorStates[i] == CLOSE)
+				closedDoors.push_back(i);
+			else
+				openedDoors.push_back(i);
+		}
+		cout << "开着的门有：" << endl;
+		for (auto i : openedDoors)
+			cout << i << " ";
+		cout << endl;
+		cout << "关着的门有：" << endl;
+		for (auto i : closedDoors)
+			cout << i << " ";
+		cout << endl;
+	}
 	static void openedDoors() {
 		using std::cout;
 		using std::cin;
 		using std::endl;
 		using std::vector;
-		int doorCount;
+		using DoorNunber = size_t;
+		DoorNunber doorCount;
 		//输入 门的总数
 		cout << "请输入门的总数: ";
 		cin >> doorCount;
 		cout << endl;
 		//定义一个数组,用来存储完全平方数
-		vector<int> openedDoors;
-		for (int i = 1; i * i <= doorCount; ++i) {
-			openedDoors.push_back(i);
-		}
-		for (auto doorValue : openedDoors)
-			cout << doorValue;
-		cout << "以上为开启的门，其他为关闭的门";
+		for (DoorNunber i = 1; i * i <= doorCount; ++i)
+			cout << i * i << " ";
+		cout << endl;
+		cout << "以上为开启的门，其他为关闭的门" << endl;
 	}
 };
 
