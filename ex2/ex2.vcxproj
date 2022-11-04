@@ -18,6 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bf_kmp.cpp" />
+    <ClCompile Include="Point_final.cpp" />
+    <ClCompile Include="众数_final.cpp" />
+    <ClCompile Include="最大子数列_final.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -126,13 +132,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="bf_kmp.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="max_subsum.cpp" />
-    <ClCompile Include="Point.cpp" />
-    <ClCompile Include="zhongshu.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
